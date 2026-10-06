@@ -1,84 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Registered Teams</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    margin: 10px;
-}
-
-h2 {
-    text-align: center;
-}
-
-.team-card {
-    background: white;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.player {
-    padding: 5px 0;
-    font-size: 18px;
-}
-
-.count {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-</style>
-</head>
-
-<body>
-
-<h2>🏓 Registered Teams</h2>
-
-<div id="count" class="count">Loading...</div>
-<div id="players"></div>
-
 <script>
-
 const sheetId = "13FzbI2Ka7xwscxTQjx_4P7hhYh7p07Nllt-YLDX_4jg";
 const sheetName = "Form Responses 1";
 
 const url = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
 
 fetch(url)
-.then(response => response.json())
+.then(r => r.json())
 .then(data => {
 
-   console.log(data[0]);
-document.getElementById("players").innerHTML =
-    "<pre>" + JSON.stringify(data[0], null, 2) + "</pre>";
+    const firstRow = data[0];
 
-    const container = document.getElementById("players");
-    container.innerHTML = "";
+    document.getElementById("players").innerHTML =
+        "<pre>" + JSON.stringify(firstRow, null, 2) + "</pre>";
 
-    data.reverse().forEach(team => {
-
-        container.innerHTML += `
-            <div class="team-card">
-                <div class="player">👤 ${team["Player 1"] || ""}</div>
-                <div class="player">👤 ${team["Player 2"] || ""}</div>
-            </div>
-        `;
-    });
-
-})
-.catch(error => {
-    document.getElementById("count").innerText =
-        "Unable to load registrations";
-    console.error(error);
 });
-
 </script>
-
-</body>
-</html>
